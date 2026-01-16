@@ -345,28 +345,6 @@ p {
   background: rgba(107, 124, 138, 0.55);
 }
 
-/* ---- Buttons (if you use them) ---- */
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: 1px solid var(--line-2);
-  background: var(--surface);
-  color: var(--text);
-  font-weight: 650;
-  text-decoration: none;
-  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), background var(--dur) var(--ease);
-}
-
-.button:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow);
-  background: rgba(234, 231, 226, 0.35);
-}
-
 /* ---- Footer ---- */
 .site-footer {
   padding: var(--s6) 0;
