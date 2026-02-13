@@ -1,11 +1,12 @@
 /* =========================================================
    Samantha MW Wood — Diet Coke palette remix (Squarespace 7.1)
-   Paste into: Design → Custom CSS
-   Palette pulled from the provided image:
-   - Light gray: #C9CED3
-   - Red:       #E31D2A
-   - White:     #FFFFFF
-   - Black:     #111111
+   UPDATED per your notes:
+   1) Header ALWAYS stays at top while scrolling (fixed, high z-index)
+   2) Top “About” area: smaller headshot + sits beside the intro text
+   3) Research section: supports a 2-column “image next to text” layout
+   4) Remove the weird “tiny header above big header” feel:
+      - neutralize small kicker-style headings + h4 all-caps treatment
+      - reduce extra spacing so headings feel normal
    ========================================================= */
 
 /* ---- Theme tokens ---- */
@@ -22,11 +23,11 @@
   --accent: #E31D2A;
   /* Diet Coke red */
   --accentHover: #B8141F;
-  /* deeper red */
+
   --link: #E31D2A;
   --linkHover: #B8141F;
 
-  --max: 860px;
+  --max: 900px;
   --pad: clamp(18px, 3.5vw, 48px);
 
   /* Typography */
@@ -39,8 +40,13 @@
   --body: 17px;
   --lh: 1.65;
 
-  /* Fixed header height (used to offset content) */
+  /* Header height (used to offset page content) */
   --headerH: 74px;
+
+  /* Two-column media block sizing */
+  --mediaCol: 180px;
+  /* image column width (about/research) */
+  --mediaRadius: 12px;
 }
 
 /* ---- Global base ---- */
@@ -50,6 +56,7 @@ body {
 }
 
 body {
+  margin: 0;
   background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
@@ -57,10 +64,9 @@ body {
   line-height: var(--lh);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  margin: 0;
 }
 
-/* Make room for the fixed header */
+/* Prevent content from sliding under the fixed header */
 body {
   padding-top: var(--headerH);
 }
@@ -115,17 +121,9 @@ main,
   padding-right: var(--pad);
 }
 
-/* Give sections a subtle “white card” feel against gray background */
-.page-section {
-  background: transparent;
-}
-
-.page-section .sqs-layout {
-  background: transparent;
-}
-
-/* ---- ALWAYS VISIBLE HEADER (fixed) ---- */
-/* Squarespace sometimes uses different wrappers; include several */
+/* =========================================================
+   1) HEADER: ALWAYS stays at top
+   ========================================================= */
 header,
 .Header,
 .header,
@@ -136,7 +134,8 @@ header,
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 9999;
+  z-index: 2147483647;
+  /* absurdly high: wins over everything */
   background: var(--surface);
   border-bottom: 1px solid var(--rule);
 }
@@ -148,7 +147,7 @@ header,
 .Header-content {
   max-width: var(--max);
   margin: 0 auto;
-  padding: 18px var(--pad);
+  padding: 14px var(--pad);
   display: flex;
   align-items: center;
   gap: 16px;
@@ -156,7 +155,7 @@ header,
   box-sizing: border-box;
 }
 
-/* Optional: red accent bar in header (Diet Coke stripe vibe) */
+/* Red stripe accent under header */
 header::after,
 .Header::after,
 .header::after,
@@ -199,7 +198,7 @@ nav,
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
@@ -209,10 +208,10 @@ nav a,
 .header-nav a {
   font-family: var(--sans);
   font-size: 14px;
-  letter-spacing: .03em;
+  letter-spacing: .02em;
   border-bottom: none;
   color: var(--text);
-  opacity: .85;
+  opacity: .88;
   padding: 6px 8px;
   border-radius: 999px;
 }
@@ -225,37 +224,20 @@ nav a:hover,
   color: var(--accentHover);
 }
 
-/* Social links in header */
-.Header-actions,
-.header-actions,
-.social-links {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+/* =========================================================
+   4) Heading cleanup: remove “tiny header above big header” vibe
+   - Make small headings look normal (no all-caps kicker look)
+   - Reduce extra spacing that makes it feel like “label + title”
+   ========================================================= */
 
-.Header-actions a,
-.social-links a {
-  border-bottom: none;
-  font-size: 14px;
-  color: var(--text);
-  opacity: .85;
-}
-
-.Header-actions a:hover,
-.social-links a:hover {
-  opacity: 1;
-  color: var(--accentHover);
-}
-
-/* ---- Typography (academic, but with strong contrast) ---- */
+/* Main headings (kept) */
 h1,
 .H1,
 .sqs-block h1 {
   font-family: var(--serif);
   font-size: var(--h1);
   line-height: 1.12;
-  margin: 22px 0 12px;
+  margin: 18px 0 12px;
   letter-spacing: .2px;
 }
 
@@ -265,7 +247,8 @@ h2,
   font-family: var(--serif);
   font-size: var(--h2);
   line-height: 1.18;
-  margin: 28px 0 10px;
+  margin: 24px 0 10px;
+  letter-spacing: .1px;
 }
 
 h3,
@@ -274,53 +257,120 @@ h3,
   font-family: var(--sans);
   font-size: var(--h3);
   line-height: 1.35;
-  margin: 18px 0 8px;
+  margin: 16px 0 8px;
 }
 
+/* Neutralize the “tiny kicker” look */
 h4,
 .sqs-block h4 {
-  font-family: var(--sans);
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: .08em;
+  font-family: var(--serif);
+  font-size: 16px;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
   margin: 18px 0 8px;
-  color: var(--muted);
+  color: var(--text);
+  font-weight: 650;
 }
 
-/* Slight emphasis line for section headings (subtle red) */
+/* If your template is styling “pre-title” elements, flatten them */
+.preFade,
+.preFade * {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Remove the red underline accent on h2 (if you liked it, delete this) */
 h2::after,
 .sqs-block h2::after {
-  content: "";
-  display: block;
-  width: 64px;
-  height: 3px;
-  margin-top: 10px;
-  background: rgba(227, 29, 42, .85);
-  border-radius: 999px;
+  content: none !important;
 }
 
-/* Lead paragraph */
-.sqs-block-content>p:first-child,
-.page-section p:first-of-type {
-  font-size: 18px;
-}
+/* =========================================================
+   2) TOP “ABOUT” layout: smaller image next to intro text
+   Works by turning the FIRST image+text area into a 2-column grid.
+   ========================================================= */
 
-/* ---- Images ---- */
+/* Reduce image size globally a bit (keeps things clean) */
 .sqs-block-image img {
-  border-radius: 10px;
+  border-radius: var(--mediaRadius);
   border: 1px solid rgba(17, 17, 17, .10);
   background: var(--surface);
 }
 
-/* ---- Horizontal rules / separators ---- */
+/* Make the first section behave like a 2-column “media block”
+   This relies on typical Squarespace block ordering (image block + text blocks).
+   If your top image is not in the first page section, this won't trigger. */
+.page-section:first-of-type .sqs-layout {
+  background: transparent;
+}
+
+/* Grid the first row of content (common in Squarespace: a single .row with multiple .col) */
+.page-section:first-of-type .sqs-layout .row {
+  display: grid;
+  grid-template-columns: var(--mediaCol) 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+/* Ensure columns don’t fight grid sizing */
+.page-section:first-of-type .sqs-layout .col {
+  width: auto !important;
+  float: none !important;
+}
+
+/* Make the headshot smaller and nicely aligned */
+.page-section:first-of-type .sqs-block-image img {
+  width: var(--mediaCol);
+  max-width: 100%;
+  height: auto;
+}
+
+/* Slightly tighten intro spacing */
+.page-section:first-of-type h1 {
+  margin-top: 6px;
+}
+
+/* =========================================================
+   3) RESEARCH section: image next to research text
+   Best practice in Squarespace:
+   - Put the Research section content in its own SECTION (page section)
+   - Inside that section, create two columns:
+       left: Image block
+       right: Text block
+   This CSS makes any “two-column row that contains an image block”
+   display as a clean image+text layout.
+   ========================================================= */
+
+/* Any row that has an image block: treat as a media+text row */
+.sqs-layout .row:has(.sqs-block-image) {
+  display: grid;
+  grid-template-columns: var(--mediaCol) 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+/* Keep single-column rows from accidentally becoming grids */
+.sqs-layout .row:has(.sqs-block-image):has(.col:nth-child(2)) .col {
+  width: auto !important;
+  float: none !important;
+}
+
+/* In the media+text rows, constrain images */
+.sqs-layout .row:has(.sqs-block-image) .sqs-block-image img {
+  width: 100%;
+  max-width: var(--mediaCol);
+}
+
+/* =========================================================
+   Separators + lists + footer
+   ========================================================= */
 hr,
 .sqs-block-horizontalrule hr {
   border: 0;
   border-top: 1px solid var(--rule);
-  margin: 28px 0;
+  margin: 26px 0;
 }
 
-/* ---- Lists ---- */
 ul,
 ol {
   padding-left: 1.2em;
@@ -335,7 +385,6 @@ li a {
   border-bottom-color: rgba(227, 29, 42, .35);
 }
 
-/* ---- Footer ---- */
 footer,
 .Footer,
 .footer {
@@ -347,19 +396,24 @@ footer,
   background: var(--surface);
 }
 
-/* ---- Mobile tweaks ---- */
+/* =========================================================
+   Mobile tweaks
+   ========================================================= */
 @media (max-width: 720px) {
   :root {
-    --headerH: 88px;
+    --headerH: 92px;
+    --mediaCol: 140px;
   }
 
-  /* more room for wrapped nav */
+  /* Header stacks nicely */
   .Header-inner,
   .header-inner,
   .Header-content {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+    padding: 12px var(--pad);
+    min-height: var(--headerH);
   }
 
   .Header-nav,
@@ -367,5 +421,23 @@ footer,
   .header-nav {
     justify-content: flex-start;
     gap: 10px;
+  }
+
+  /* About section becomes one column on mobile */
+  .page-section:first-of-type .sqs-layout .row {
+    grid-template-columns: 1fr;
+  }
+
+  .page-section:first-of-type .sqs-block-image img {
+    width: min(180px, 70vw);
+  }
+
+  /* Media+text rows become one column on mobile */
+  .sqs-layout .row:has(.sqs-block-image) {
+    grid-template-columns: 1fr;
+  }
+
+  .sqs-layout .row:has(.sqs-block-image) .sqs-block-image img {
+    max-width: min(220px, 80vw);
   }
 }
