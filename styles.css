@@ -1,27 +1,18 @@
 /* =========================================================
-   Samantha MW Wood — Diet Coke palette remix (Squarespace 7.1)
-   UPDATED per your notes:
-   1) Header ALWAYS stays at top while scrolling (fixed, high z-index)
-   2) Top “About” area: smaller headshot + sits beside the intro text
-   3) Research section: supports a 2-column “image next to text” layout
-   4) Remove the weird “tiny header above big header” feel:
-      - neutralize small kicker-style headings + h4 all-caps treatment
-      - reduce extra spacing so headings feel normal
+   Samantha MW Wood — Diet Coke palette remix
+   + Added: Make ONLY the very first image small (instead of hiding it)
+   (targets your current HTML: <main><section class="hero">...<img .../></section>)
    ========================================================= */
 
 /* ---- Theme tokens ---- */
 :root {
   --bg: #C9CED3;
-  /* light gray */
   --surface: #FFFFFF;
-  /* white panels/header */
   --text: #111111;
-  /* near-black */
   --muted: rgba(17, 17, 17, .72);
   --rule: rgba(17, 17, 17, .14);
 
   --accent: #E31D2A;
-  /* Diet Coke red */
   --accentHover: #B8141F;
 
   --link: #E31D2A;
@@ -45,7 +36,6 @@
 
   /* Two-column media block sizing */
   --mediaCol: 180px;
-  /* image column width (about/research) */
   --mediaRadius: 12px;
 }
 
@@ -97,7 +87,7 @@ strong {
   font-weight: 650;
 }
 
-/* ---- Constrain content width (Squarespace 7.1-ish containers) ---- */
+/* ---- Constrain content width (applies to your HTML classes too) ---- */
 main,
 .Main,
 .main-content,
@@ -108,7 +98,8 @@ main,
 .Index-page-content,
 .page-section,
 .Site-inner,
-.site-wrapper {
+.site-wrapper,
+.container {
   max-width: var(--max);
   margin-left: auto;
   margin-right: auto;
@@ -116,13 +107,14 @@ main,
 
 .page-section,
 .sqs-layout,
-.Index-page-content {
+.Index-page-content,
+.container {
   padding-left: var(--pad);
   padding-right: var(--pad);
 }
 
 /* =========================================================
-   1) HEADER: ALWAYS stays at top
+   1) HEADER: ALWAYS stays at top (your HTML uses .site-header)
    ========================================================= */
 header,
 .Header,
@@ -135,24 +127,8 @@ header,
   right: 0;
   width: 100%;
   z-index: 2147483647;
-  /* absurdly high: wins over everything */
   background: var(--surface);
   border-bottom: 1px solid var(--rule);
-}
-
-/* Header inner layout */
-.Header-inner,
-.header-inner,
-.Header--top,
-.Header-content {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 14px var(--pad);
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  min-height: var(--headerH);
-  box-sizing: border-box;
 }
 
 /* Red stripe accent under header */
@@ -167,45 +143,52 @@ header::after,
   background: var(--accent);
 }
 
-/* Site title */
-.Header-branding,
-.header-title,
-.Site-title,
-.Header-logo {
-  flex: 1;
-  min-width: 180px;
+/* =========================================================
+   ADDITION: Make ONLY the very first image small
+   - In your HTML, the first image is the headshot in .hero
+   - This keeps it present but not “giant”
+   ========================================================= */
+
+/* Most reliable: target your actual hero headshot image */
+.hero img {
+  width: 120px !important;
+  max-width: 120px !important;
+  height: auto !important;
+  border-radius: 12px;
+  display: block;
 }
 
-.Header-branding a,
-.header-title a,
-.Site-title a {
-  font-family: var(--serif);
-  letter-spacing: .2px;
-  font-size: 18px;
-  color: var(--text);
-  border-bottom: none;
+/* Fallback: if you later move things around, still make first image small */
+main img:first-of-type {
+  width: 120px !important;
+  max-width: 120px !important;
+  height: auto !important;
+  border-radius: 12px;
 }
 
-.Header-branding a:hover,
-.header-title a:hover,
-.Site-title a:hover {
-  color: var(--accentHover);
+/* Optional: keep the headshot container from forcing a big circle */
+.headshot {
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  /* keep circle if you want */
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  box-shadow: none;
 }
 
-/* Nav links */
-.Header-nav,
-nav,
-.header-nav {
+/* ---- Nav links (your HTML uses .nav__links) ---- */
+.nav__links {
   display: flex;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
   justify-content: flex-end;
+  padding: 14px var(--pad);
 }
 
-.Header-nav a,
-nav a,
-.header-nav a {
+.nav__links a {
   font-family: var(--sans);
   font-size: 14px;
   letter-spacing: .02em;
@@ -216,24 +199,16 @@ nav a,
   border-radius: 999px;
 }
 
-.Header-nav a:hover,
-nav a:hover,
-.header-nav a:hover {
+.nav__links a:hover {
   opacity: 1;
   background: rgba(227, 29, 42, .08);
   color: var(--accentHover);
 }
 
 /* =========================================================
-   4) Heading cleanup: remove “tiny header above big header” vibe
-   - Make small headings look normal (no all-caps kicker look)
-   - Reduce extra spacing that makes it feel like “label + title”
+   Headings cleanup (kept from your version)
    ========================================================= */
-
-/* Main headings (kept) */
-h1,
-.H1,
-.sqs-block h1 {
+h1 {
   font-family: var(--serif);
   font-size: var(--h1);
   line-height: 1.12;
@@ -241,9 +216,7 @@ h1,
   letter-spacing: .2px;
 }
 
-h2,
-.H2,
-.sqs-block h2 {
+h2 {
   font-family: var(--serif);
   font-size: var(--h2);
   line-height: 1.18;
@@ -251,146 +224,27 @@ h2,
   letter-spacing: .1px;
 }
 
-h3,
-.H3,
-.sqs-block h3 {
+h3 {
   font-family: var(--sans);
   font-size: var(--h3);
   line-height: 1.35;
   margin: 16px 0 8px;
 }
 
-/* Neutralize the “tiny kicker” look */
-h4,
-.sqs-block h4 {
-  font-family: var(--serif);
-  font-size: 16px;
-  text-transform: none !important;
-  letter-spacing: 0 !important;
-  margin: 18px 0 8px;
-  color: var(--text);
-  font-weight: 650;
-}
-
-/* If your template is styling “pre-title” elements, flatten them */
-.preFade,
-.preFade * {
-  text-transform: none;
-  letter-spacing: normal;
-}
-
-/* Remove the red underline accent on h2 (if you liked it, delete this) */
-h2::after,
-.sqs-block h2::after {
-  content: none !important;
-}
-
 /* =========================================================
-   2) TOP “ABOUT” layout: smaller image next to intro text
-   Works by turning the FIRST image+text area into a 2-column grid.
+   Separators + footer (minimal)
    ========================================================= */
-
-/* Reduce image size globally a bit (keeps things clean) */
-.sqs-block-image img {
-  border-radius: var(--mediaRadius);
-  border: 1px solid rgba(17, 17, 17, .10);
-  background: var(--surface);
-}
-
-/* Make the first section behave like a 2-column “media block”
-   This relies on typical Squarespace block ordering (image block + text blocks).
-   If your top image is not in the first page section, this won't trigger. */
-.page-section:first-of-type .sqs-layout {
-  background: transparent;
-}
-
-/* Grid the first row of content (common in Squarespace: a single .row with multiple .col) */
-.page-section:first-of-type .sqs-layout .row {
-  display: grid;
-  grid-template-columns: var(--mediaCol) 1fr;
-  gap: 22px;
-  align-items: start;
-}
-
-/* Ensure columns don’t fight grid sizing */
-.page-section:first-of-type .sqs-layout .col {
-  width: auto !important;
-  float: none !important;
-}
-
-/* Make the headshot smaller and nicely aligned */
-.page-section:first-of-type .sqs-block-image img {
-  width: var(--mediaCol);
-  max-width: 100%;
-  height: auto;
-}
-
-/* Slightly tighten intro spacing */
-.page-section:first-of-type h1 {
-  margin-top: 6px;
-}
-
-/* =========================================================
-   3) RESEARCH section: image next to research text
-   Best practice in Squarespace:
-   - Put the Research section content in its own SECTION (page section)
-   - Inside that section, create two columns:
-       left: Image block
-       right: Text block
-   This CSS makes any “two-column row that contains an image block”
-   display as a clean image+text layout.
-   ========================================================= */
-
-/* Any row that has an image block: treat as a media+text row */
-.sqs-layout .row:has(.sqs-block-image) {
-  display: grid;
-  grid-template-columns: var(--mediaCol) 1fr;
-  gap: 22px;
-  align-items: start;
-}
-
-/* Keep single-column rows from accidentally becoming grids */
-.sqs-layout .row:has(.sqs-block-image):has(.col:nth-child(2)) .col {
-  width: auto !important;
-  float: none !important;
-}
-
-/* In the media+text rows, constrain images */
-.sqs-layout .row:has(.sqs-block-image) .sqs-block-image img {
-  width: 100%;
-  max-width: var(--mediaCol);
-}
-
-/* =========================================================
-   Separators + lists + footer
-   ========================================================= */
-hr,
-.sqs-block-horizontalrule hr {
+.rule,
+hr {
   border: 0;
   border-top: 1px solid var(--rule);
   margin: 26px 0;
 }
 
-ul,
-ol {
-  padding-left: 1.2em;
-  margin: 0 0 14px;
-}
-
-li {
-  margin: 6px 0;
-}
-
-li a {
-  border-bottom-color: rgba(227, 29, 42, .35);
-}
-
-footer,
-.Footer,
-.footer {
+.site-footer {
   border-top: 1px solid var(--rule);
   margin-top: 40px;
-  padding: 24px var(--pad);
+  padding: 24px 0;
   color: var(--muted);
   font-size: 14px;
   background: var(--surface);
@@ -402,42 +256,18 @@ footer,
 @media (max-width: 720px) {
   :root {
     --headerH: 92px;
-    --mediaCol: 140px;
   }
 
-  /* Header stacks nicely */
-  .Header-inner,
-  .header-inner,
-  .Header-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 12px var(--pad);
-    min-height: var(--headerH);
-  }
-
-  .Header-nav,
-  nav,
-  .header-nav {
+  .nav__links {
     justify-content: flex-start;
     gap: 10px;
   }
 
-  /* About section becomes one column on mobile */
-  .page-section:first-of-type .sqs-layout .row {
-    grid-template-columns: 1fr;
-  }
-
-  .page-section:first-of-type .sqs-block-image img {
-    width: min(180px, 70vw);
-  }
-
-  /* Media+text rows become one column on mobile */
-  .sqs-layout .row:has(.sqs-block-image) {
-    grid-template-columns: 1fr;
-  }
-
-  .sqs-layout .row:has(.sqs-block-image) .sqs-block-image img {
-    max-width: min(220px, 80vw);
+  .hero img,
+  main img:first-of-type,
+  .headshot {
+    width: 110px !important;
+    max-width: 110px !important;
+    height: 110px !important;
   }
 }
