@@ -1,16 +1,30 @@
-/* ===============================
-   Samantha-style: clean academic one-page
-   Drop into Squarespace: Design → Custom CSS
-   =============================== */
+/* =========================================================
+   Samantha MW Wood — Diet Coke palette remix (Squarespace 7.1)
+   Paste into: Design → Custom CSS
+   Palette pulled from the provided image:
+   - Light gray: #C9CED3
+   - Red:       #E31D2A
+   - White:     #FFFFFF
+   - Black:     #111111
+   ========================================================= */
 
 /* ---- Theme tokens ---- */
 :root {
-  --bg: #ffffff;
+  --bg: #C9CED3;
+  /* light gray */
+  --surface: #FFFFFF;
+  /* white panels/header */
   --text: #111111;
-  --muted: #555555;
-  --rule: rgba(0, 0, 0, .12);
-  --link: #111111;
-  --linkHover: rgba(0, 0, 0, .65);
+  /* near-black */
+  --muted: rgba(17, 17, 17, .72);
+  --rule: rgba(17, 17, 17, .14);
+
+  --accent: #E31D2A;
+  /* Diet Coke red */
+  --accentHover: #B8141F;
+  /* deeper red */
+  --link: #E31D2A;
+  --linkHover: #B8141F;
 
   --max: 860px;
   --pad: clamp(18px, 3.5vw, 48px);
@@ -24,9 +38,12 @@
   --h3: clamp(18px, 2.2vw, 22px);
   --body: 17px;
   --lh: 1.65;
+
+  /* Fixed header height (used to offset content) */
+  --headerH: 74px;
 }
 
-/* ---- Global resets ---- */
+/* ---- Global base ---- */
 html,
 body {
   height: 100%;
@@ -40,6 +57,12 @@ body {
   line-height: var(--lh);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  margin: 0;
+}
+
+/* Make room for the fixed header */
+body {
+  padding-top: var(--headerH);
 }
 
 img {
@@ -47,16 +70,17 @@ img {
   height: auto;
 }
 
+/* Links: Diet Coke red */
 a {
   color: var(--link);
   text-decoration: none;
-  border-bottom: 1px solid rgba(0, 0, 0, .28);
-  transition: border-color .15s ease, color .15s ease, opacity .15s ease;
+  border-bottom: 1px solid rgba(227, 29, 42, .45);
+  transition: border-color .15s ease, color .15s ease, opacity .15s ease, background .15s ease;
 }
 
 a:hover {
   color: var(--linkHover);
-  border-bottom-color: rgba(0, 0, 0, .55);
+  border-bottom-color: rgba(184, 20, 31, .75);
 }
 
 p {
@@ -67,8 +91,7 @@ strong {
   font-weight: 650;
 }
 
-/* ---- Constrain content width ---- */
-/* Targets the typical Squarespace 7.1 content containers */
+/* ---- Constrain content width (Squarespace 7.1-ish containers) ---- */
 main,
 .Main,
 .main-content,
@@ -92,28 +115,57 @@ main,
   padding-right: var(--pad);
 }
 
-/* ---- Header / Nav (Squarespace-ish) ---- */
-header,
-.Header,
-.header {
-  padding: 18px var(--pad);
-  border-bottom: 1px solid var(--rule);
-  background: rgba(255, 255, 255, .92);
-  backdrop-filter: blur(10px);
-  position: sticky;
-  top: 0;
-  z-index: 50;
+/* Give sections a subtle “white card” feel against gray background */
+.page-section {
+  background: transparent;
 }
 
+.page-section .sqs-layout {
+  background: transparent;
+}
+
+/* ---- ALWAYS VISIBLE HEADER (fixed) ---- */
+/* Squarespace sometimes uses different wrappers; include several */
+header,
+.Header,
+.header,
+.Site-header,
+.site-header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 9999;
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Header inner layout */
 .Header-inner,
 .header-inner,
 .Header--top,
 .Header-content {
   max-width: var(--max);
   margin: 0 auto;
+  padding: 18px var(--pad);
   display: flex;
   align-items: center;
   gap: 16px;
+  min-height: var(--headerH);
+  box-sizing: border-box;
+}
+
+/* Optional: red accent bar in header (Diet Coke stripe vibe) */
+header::after,
+.Header::after,
+.header::after,
+.Site-header::after,
+.site-header::after {
+  content: "";
+  display: block;
+  height: 6px;
+  background: var(--accent);
 }
 
 /* Site title */
@@ -131,7 +183,14 @@ header,
   font-family: var(--serif);
   letter-spacing: .2px;
   font-size: 18px;
+  color: var(--text);
   border-bottom: none;
+}
+
+.Header-branding a:hover,
+.header-title a:hover,
+.Site-title a:hover {
+  color: var(--accentHover);
 }
 
 /* Nav links */
@@ -151,18 +210,22 @@ nav a,
   font-family: var(--sans);
   font-size: 14px;
   letter-spacing: .03em;
-  text-transform: none;
   border-bottom: none;
+  color: var(--text);
   opacity: .85;
+  padding: 6px 8px;
+  border-radius: 999px;
 }
 
 .Header-nav a:hover,
 nav a:hover,
 .header-nav a:hover {
   opacity: 1;
+  background: rgba(227, 29, 42, .08);
+  color: var(--accentHover);
 }
 
-/* Social icons/links often sit near header */
+/* Social links in header */
 .Header-actions,
 .header-actions,
 .social-links {
@@ -175,21 +238,23 @@ nav a:hover,
 .social-links a {
   border-bottom: none;
   font-size: 14px;
+  color: var(--text);
   opacity: .85;
 }
 
 .Header-actions a:hover,
 .social-links a:hover {
   opacity: 1;
+  color: var(--accentHover);
 }
 
-/* ---- Hero block ---- */
+/* ---- Typography (academic, but with strong contrast) ---- */
 h1,
 .H1,
 .sqs-block h1 {
   font-family: var(--serif);
   font-size: var(--h1);
-  line-height: 1.15;
+  line-height: 1.12;
   margin: 22px 0 12px;
   letter-spacing: .2px;
 }
@@ -199,7 +264,7 @@ h2,
 .sqs-block h2 {
   font-family: var(--serif);
   font-size: var(--h2);
-  line-height: 1.2;
+  line-height: 1.18;
   margin: 28px 0 10px;
 }
 
@@ -222,18 +287,32 @@ h4,
   color: var(--muted);
 }
 
-/* Lead / subtitle-ish text */
+/* Slight emphasis line for section headings (subtle red) */
+h2::after,
+.sqs-block h2::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 3px;
+  margin-top: 10px;
+  background: rgba(227, 29, 42, .85);
+  border-radius: 999px;
+}
+
+/* Lead paragraph */
 .sqs-block-content>p:first-child,
 .page-section p:first-of-type {
   font-size: 18px;
 }
 
-/* ---- Images (portrait near top) ---- */
+/* ---- Images ---- */
 .sqs-block-image img {
   border-radius: 10px;
+  border: 1px solid rgba(17, 17, 17, .10);
+  background: var(--surface);
 }
 
-/* ---- Horizontal rules / section separators ---- */
+/* ---- Horizontal rules / separators ---- */
 hr,
 .sqs-block-horizontalrule hr {
   border: 0;
@@ -241,7 +320,7 @@ hr,
   margin: 28px 0;
 }
 
-/* ---- Lists (publications) ---- */
+/* ---- Lists ---- */
 ul,
 ol {
   padding-left: 1.2em;
@@ -253,18 +332,7 @@ li {
 }
 
 li a {
-  border-bottom-color: rgba(0, 0, 0, .22);
-}
-
-/* ---- “Small label + link” lines (Lab Page / Google Scholar) ---- */
-.sqs-block-markdown h4+p,
-.sqs-block-html h4+p {
-  margin-top: -6px;
-}
-
-.sqs-block-markdown p strong,
-.sqs-block-html p strong {
-  font-weight: 650;
+  border-bottom-color: rgba(227, 29, 42, .35);
 }
 
 /* ---- Footer ---- */
@@ -276,22 +344,22 @@ footer,
   padding: 24px var(--pad);
   color: var(--muted);
   font-size: 14px;
+  background: var(--surface);
 }
 
 /* ---- Mobile tweaks ---- */
 @media (max-width: 720px) {
-
-  header,
-  .Header,
-  .header {
-    position: relative;
+  :root {
+    --headerH: 88px;
   }
 
+  /* more room for wrapped nav */
   .Header-inner,
   .header-inner,
   .Header-content {
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
   }
 
   .Header-nav,
