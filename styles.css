@@ -1,45 +1,65 @@
 /* =========================================================
-   Samantha MW Wood — Diet Coke palette remix
-   + Added: Make ONLY the very first image small (instead of hiding it)
-   (targets your current HTML: <main><section class="hero">...<img .../></section>)
+   Samantha M. W. Wood — Clean Academic Profile (Original palette)
+   Full CSS for your CURRENT HTML (not Squarespace)
+   - White background
+   - Near-black text
+   - Subtle gray rules
+   - Simple, credible links
+   - Fixed header that stays at the top
+   - Make ONLY the first image (hero headshot) small
    ========================================================= */
 
-/* ---- Theme tokens ---- */
+/* ---- Design tokens ---- */
 :root {
-  --bg: #C9CED3;
-  --surface: #FFFFFF;
+  --bg: #ffffff;
+  --surface: #ffffff;
   --text: #111111;
-  --muted: rgba(17, 17, 17, .72);
-  --rule: rgba(17, 17, 17, .14);
+  --muted: #555555;
+  --muted-2: #777777;
 
-  --accent: #E31D2A;
-  --accentHover: #B8141F;
+  --link: #111111;
+  --link-hover: #000000;
 
-  --link: #E31D2A;
-  --linkHover: #B8141F;
+  --line: rgba(17, 17, 17, 0.12);
+  --line-2: rgba(17, 17, 17, 0.16);
 
-  --max: 900px;
-  --pad: clamp(18px, 3.5vw, 48px);
+  --maxw: 1040px;
+  --gutter: 24px;
 
-  /* Typography */
-  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
-  --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Garamond, "Times New Roman", serif;
+  --radius: 12px;
 
-  --h1: clamp(34px, 4.2vw, 52px);
-  --h2: clamp(24px, 3.0vw, 34px);
-  --h3: clamp(18px, 2.2vw, 22px);
-  --body: 17px;
-  --lh: 1.65;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Garamond, "Times New Roman", serif;
 
-  /* Header height (used to offset page content) */
-  --headerH: 74px;
+  --h1: clamp(2rem, 2.2vw + 1.4rem, 3.1rem);
+  --h2: clamp(1.35rem, 1.1vw + 1.1rem, 1.9rem);
+  --h3: 1.15rem;
 
-  /* Two-column media block sizing */
-  --mediaCol: 180px;
-  --mediaRadius: 12px;
+  --body: 1.02rem;
+  --small: 0.93rem;
+
+  /* Spacing rhythm */
+  --s1: 6px;
+  --s2: 10px;
+  --s3: 16px;
+  --s4: 24px;
+  --s5: 36px;
+  --s6: 56px;
+
+  /* Fixed header sizing */
+  --headerH: 72px;
+
+  /* Hero headshot sizing */
+  --headshot: 120px;
 }
 
-/* ---- Global base ---- */
+/* ---- Base reset-ish ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html,
 body {
   height: 100%;
@@ -47,227 +67,296 @@ body {
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
+  font-family: var(--font-sans);
   font-size: var(--body);
-  line-height: var(--lh);
-  -webkit-font-smoothing: antialiased;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
   text-rendering: optimizeLegibility;
-}
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
-/* Prevent content from sliding under the fixed header */
-body {
+  /* Prevent content from sitting under fixed header */
   padding-top: var(--headerH);
 }
 
-img {
+img,
+svg,
+video {
   max-width: 100%;
   height: auto;
+  display: block;
 }
 
-/* Links: Diet Coke red */
+/* Links: classic, understated */
 a {
   color: var(--link);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(227, 29, 42, .45);
-  transition: border-color .15s ease, color .15s ease, opacity .15s ease, background .15s ease;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(17, 17, 17, 0.35);
+  transition: color 160ms ease, text-decoration-color 160ms ease;
 }
 
 a:hover {
-  color: var(--linkHover);
-  border-bottom-color: rgba(184, 20, 31, .75);
+  color: var(--link-hover);
+  text-decoration-color: rgba(17, 17, 17, 0.75);
+}
+
+a:focus-visible {
+  outline: 3px solid rgba(17, 17, 17, 0.25);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
 p {
-  margin: 0 0 14px;
+  margin: 0 0 var(--s3);
 }
 
-strong {
-  font-weight: 650;
+.small,
+.meta {
+  font-size: var(--small);
+  color: var(--muted-2);
 }
 
-/* ---- Constrain content width (applies to your HTML classes too) ---- */
-main,
-.Main,
-.main-content,
-.sqs-layout,
-.content-wrapper,
-.Content-outer,
-.Content,
-.Index-page-content,
-.page-section,
-.Site-inner,
-.site-wrapper,
+/* ---- Layout ---- */
 .container {
-  max-width: var(--max);
-  margin-left: auto;
-  margin-right: auto;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
 }
 
-.page-section,
-.sqs-layout,
-.Index-page-content,
-.container {
-  padding-left: var(--pad);
-  padding-right: var(--pad);
+.section {
+  padding: var(--s6) 0;
+}
+
+.section--tight {
+  padding: var(--s5) 0;
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: var(--s5) 0;
 }
 
 /* =========================================================
-   1) HEADER: ALWAYS stays at top (your HTML uses .site-header)
+   Header / Nav — ALWAYS visible at top
    ========================================================= */
-header,
-.Header,
-.header,
-.Site-header,
 .site-header {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
   width: 100%;
-  z-index: 2147483647;
-  background: var(--surface);
-  border-bottom: 1px solid var(--rule);
+  z-index: 9999;
+
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
 }
 
-/* Red stripe accent under header */
-header::after,
-.Header::after,
-.header::after,
-.Site-header::after,
-.site-header::after {
-  content: "";
-  display: block;
-  height: 6px;
-  background: var(--accent);
-}
-
-/* =========================================================
-   ADDITION: Make ONLY the very first image small
-   - In your HTML, the first image is the headshot in .hero
-   - This keeps it present but not “giant”
-   ========================================================= */
-
-/* Most reliable: target your actual hero headshot image */
-.hero img {
-  width: 120px !important;
-  max-width: 120px !important;
-  height: auto !important;
-  border-radius: 12px;
-  display: block;
-}
-
-/* Fallback: if you later move things around, still make first image small */
-main img:first-of-type {
-  width: 120px !important;
-  max-width: 120px !important;
-  height: auto !important;
-  border-radius: 12px;
-}
-
-/* Optional: keep the headshot container from forcing a big circle */
-.headshot {
-  width: 120px;
-  height: 120px;
-  border-radius: 999px;
-  /* keep circle if you want */
-  overflow: hidden;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  box-shadow: none;
-}
-
-/* ---- Nav links (your HTML uses .nav__links) ---- */
-.nav__links {
+.nav {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
   justify-content: flex-end;
-  padding: 14px var(--pad);
+  min-height: var(--headerH);
+}
+
+.nav__links {
+  display: flex;
+  gap: clamp(14px, 1.4vw, 22px);
+  flex-wrap: wrap;
+  align-items: center;
+  padding: var(--s3) 0;
 }
 
 .nav__links a {
-  font-family: var(--sans);
-  font-size: 14px;
-  letter-spacing: .02em;
-  border-bottom: none;
-  color: var(--text);
-  opacity: .88;
-  padding: 6px 8px;
-  border-radius: 999px;
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 550;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: color 160ms ease, background 160ms ease;
 }
 
 .nav__links a:hover {
-  opacity: 1;
-  background: rgba(227, 29, 42, .08);
-  color: var(--accentHover);
+  color: var(--text);
+  background: rgba(17, 17, 17, 0.06);
 }
 
 /* =========================================================
-   Headings cleanup (kept from your version)
+   Hero — smaller headshot (not giant)
    ========================================================= */
-h1 {
-  font-family: var(--serif);
-  font-size: var(--h1);
-  line-height: 1.12;
-  margin: 18px 0 12px;
-  letter-spacing: .2px;
+.hero {
+  padding: var(--s6) 0 var(--s5);
 }
 
+.hero__grid {
+  display: grid;
+  grid-template-columns: var(--headshot) 1fr;
+  gap: var(--s5);
+  align-items: center;
+}
+
+.headshot {
+  width: var(--headshot);
+  height: var(--headshot);
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.headshot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Extra safety: Make ONLY the very first image small */
+main img:first-of-type {
+  width: var(--headshot);
+  max-width: var(--headshot);
+  height: auto;
+}
+
+/* Hero typography */
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: var(--h1);
+  line-height: 1.12;
+  margin: 0 0 var(--s3);
+  letter-spacing: -0.02em;
+}
+
+.hero .tagline {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 70ch;
+}
+
+/* =========================================================
+   Headings
+   ========================================================= */
 h2 {
-  font-family: var(--serif);
+  font-family: var(--font-serif);
   font-size: var(--h2);
-  line-height: 1.18;
-  margin: 24px 0 10px;
-  letter-spacing: .1px;
+  line-height: 1.2;
+  margin: 0 0 var(--s3);
+  letter-spacing: -0.01em;
 }
 
 h3 {
-  font-family: var(--sans);
   font-size: var(--h3);
-  line-height: 1.35;
-  margin: 16px 0 8px;
+  margin: 0 0 var(--s2);
+}
+
+/* Remove “tiny header above big header” vibe */
+.kicker {
+  display: none;
 }
 
 /* =========================================================
-   Separators + footer (minimal)
+   Cards / Items
    ========================================================= */
-.rule,
-hr {
-  border: 0;
-  border-top: 1px solid var(--rule);
-  margin: 26px 0;
+.item {
+  padding: var(--s4);
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
 }
 
-.site-footer {
-  border-top: 1px solid var(--rule);
-  margin-top: 40px;
-  padding: 24px 0;
+.item+.item {
+  margin-top: var(--s3);
+}
+
+.item__title {
+  margin: 0 0 var(--s1);
+  font-weight: 650;
+}
+
+.item__meta {
+  margin: 0 0 var(--s2);
+  color: var(--muted-2);
+  font-size: var(--small);
+}
+
+.item__body {
+  margin: 0;
   color: var(--muted);
-  font-size: 14px;
-  background: var(--surface);
+}
+
+/* Optional subtle left accent used in your HTML */
+.accent-line {
+  position: relative;
+  padding-left: 14px;
+}
+
+.accent-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  width: 3px;
+  height: calc(100% - 0.35em);
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.28);
+}
+
+/* Link list */
+.link-list {
+  display: grid;
+  gap: var(--s2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link-list a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.link-list a span {
+  color: var(--muted);
+  font-weight: 500;
 }
 
 /* =========================================================
-   Mobile tweaks
+   Footer
+   ========================================================= */
+.site-footer {
+  padding: var(--s6) 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted-2);
+  font-size: var(--small);
+}
+
+/* =========================================================
+   Responsive
    ========================================================= */
 @media (max-width: 720px) {
   :root {
     --headerH: 92px;
+    --headshot: 110px;
   }
 
-  .nav__links {
+  .nav {
     justify-content: flex-start;
-    gap: 10px;
   }
 
-  .hero img,
-  main img:first-of-type,
+  .hero__grid {
+    grid-template-columns: 1fr;
+    gap: var(--s4);
+  }
+
   .headshot {
-    width: 110px !important;
-    max-width: 110px !important;
-    height: 110px !important;
+    width: var(--headshot);
+    height: var(--headshot);
   }
 }
